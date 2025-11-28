@@ -3,6 +3,8 @@
 // Licensed under the MIT License.
 // ---------------------------------------------------------------
 
+using System;
+
 namespace LLMSharp.Brokers.Times
 {
     public interface ITimeBroker

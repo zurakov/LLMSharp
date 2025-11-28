@@ -3,53 +3,35 @@
 // Licensed under the MIT License.
 // ---------------------------------------------------------------
 
+using System.IO;
+using System.Threading.Tasks;
+
 namespace LLMSharp.Brokers.Files
 {
     public class FileBroker : IFileBroker
     {
-        public async Task<byte[]> ReadAllBytesAsync(string path)
-        {
-            return await File.ReadAllBytesAsync(path);
-        }
+        public async ValueTask<byte[]> ReadAllBytesAsync(string path) =>
+            await File.ReadAllBytesAsync(path);
 
-        public async Task<string> ReadAllTextAsync(string path)
-        {
-            return await File.ReadAllTextAsync(path);
-        }
+        public async ValueTask<string> ReadAllTextAsync(string path) =>
+            await File.ReadAllTextAsync(path);
 
-        public async Task WriteAllBytesAsync(string path, byte[] content)
-        {
+        public async ValueTask WriteAllBytesAsync(string path, byte[] content) =>
             await File.WriteAllBytesAsync(path, content);
-        }
 
-        public async Task WriteAllTextAsync(string path, string content)
-        {
+        public async ValueTask WriteAllTextAsync(string path, string content) =>
             await File.WriteAllTextAsync(path, content);
-        }
 
-        public async Task<string[]> ReadAllLinesAsync(string path)
-        {
-            return await File.ReadAllLinesAsync(path);
-        }
+        public async ValueTask<string[]> ReadAllLinesAsync(string path) =>
+            await File.ReadAllLinesAsync(path);
 
-        public bool FileExists(string path)
-        {
-            return File.Exists(path);
-        }
+        public bool FileExists(string path) => File.Exists(path);
 
-        public bool DirectoryExists(string path)
-        {
-            return Directory.Exists(path);
-        }
+        public bool DirectoryExists(string path) => Directory.Exists(path);
 
-        public void CreateDirectory(string path)
-        {
-            Directory.CreateDirectory(path);
-        }
+        public void CreateDirectory(string path) => Directory.CreateDirectory(path);
 
-        public string[] GetFiles(string path, string searchPattern)
-        {
-            return Directory.GetFiles(path, searchPattern);
-        }
+        public string[] GetFiles(string path, string searchPattern) =>
+            Directory.GetFiles(path, searchPattern);
     }
 }

@@ -3,6 +3,9 @@
 // Licensed under the MIT License.
 // ---------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using LLMSharp.Models.Monitorings;
 
 namespace LLMSharp.Brokers.Monitorings
@@ -11,21 +14,20 @@ namespace LLMSharp.Brokers.Monitorings
     {
         private readonly List<InteractionEvent> interactionEvents = new();
 
-        public async Task LogInteractionEventAsync(InteractionEvent interactionEvent)
-        {
-            await Task.Run(() => interactionEvents.Add(interactionEvent));
-        }
+#pragma warning disable CS1998
+        public async ValueTask LogInteractionEventAsync(InteractionEvent interactionEvent) =>
+#pragma warning restore CS1998
+            interactionEvents.Add(interactionEvent);
 
-        public async Task<IEnumerable<InteractionEvent>> GetAllInteractionEventsAsync()
-        {
-            return await Task.FromResult(interactionEvents.AsEnumerable());
-        }
+#pragma warning disable CS1998
+        public async ValueTask<IEnumerable<InteractionEvent>> GetAllInteractionEventsAsync() =>
+#pragma warning restore CS1998
+            interactionEvents.AsEnumerable();
 
-        public async Task<IEnumerable<InteractionEvent>> GetInteractionEventsByTypeAsync(
-            InteractionType type)
-        {
-            var filteredEvents = interactionEvents.Where(e => e.Type == type);
-            return await Task.FromResult(filteredEvents);
-        }
+#pragma warning disable CS1998
+        public async ValueTask<IEnumerable<InteractionEvent>> GetInteractionEventsByTypeAsync(
+#pragma warning restore CS1998
+            InteractionType type) =>
+            interactionEvents.Where(e => e.Type == type);
     }
 }

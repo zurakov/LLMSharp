@@ -3,14 +3,16 @@
 // Licensed under the MIT License.
 // ---------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using LLMSharp.Models.Monitorings;
 
 namespace LLMSharp.Brokers.Monitorings
 {
     public interface IMonitoringBroker
     {
-        Task LogInteractionEventAsync(InteractionEvent interactionEvent);
-        Task<IEnumerable<InteractionEvent>> GetAllInteractionEventsAsync();
-        Task<IEnumerable<InteractionEvent>> GetInteractionEventsByTypeAsync(InteractionType type);
+        ValueTask LogInteractionEventAsync(InteractionEvent interactionEvent);
+        ValueTask<IEnumerable<InteractionEvent>> GetAllInteractionEventsAsync();
+        ValueTask<IEnumerable<InteractionEvent>> GetInteractionEventsByTypeAsync(InteractionType type);
     }
 }

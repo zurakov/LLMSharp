@@ -3,15 +3,17 @@
 // Licensed under the MIT License.
 // ---------------------------------------------------------------
 
+using System.Threading.Tasks;
+
 namespace LLMSharp.Brokers.Files
 {
     public interface IFileBroker
     {
-        Task<byte[]> ReadAllBytesAsync(string path);
-        Task<string> ReadAllTextAsync(string path);
-        Task WriteAllBytesAsync(string path, byte[] content);
-        Task WriteAllTextAsync(string path, string content);
-        Task<string[]> ReadAllLinesAsync(string path);
+        ValueTask<byte[]> ReadAllBytesAsync(string path);
+        ValueTask<string> ReadAllTextAsync(string path);
+        ValueTask WriteAllBytesAsync(string path, byte[] content);
+        ValueTask WriteAllTextAsync(string path, string content);
+        ValueTask<string[]> ReadAllLinesAsync(string path);
         bool FileExists(string path);
         bool DirectoryExists(string path);
         void CreateDirectory(string path);

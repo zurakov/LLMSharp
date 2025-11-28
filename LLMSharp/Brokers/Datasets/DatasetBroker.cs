@@ -3,6 +3,8 @@
 // Licensed under the MIT License.
 // ---------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using LLMSharp.Models.Datasets;
 using LLMSharp.Models.Trainings;
 
@@ -17,14 +19,10 @@ namespace LLMSharp.Brokers.Datasets
             this.datasetProvider = datasetProvider;
         }
 
-        public async Task<IEnumerable<TrainingItem>> LoadTrainingDataAsync()
-        {
-            return await this.datasetProvider.LoadTrainingDataAsync();
-        }
+        public async ValueTask<IEnumerable<TrainingItem>> LoadTrainingDataAsync() =>
+            await this.datasetProvider.LoadTrainingDataAsync();
 
-        public async Task SaveTrainingResultAsync(TrainingResult result)
-        {
+        public async ValueTask SaveTrainingResultAsync(TrainingResult result) =>
             await this.datasetProvider.SaveTrainingResultAsync(result);
-        }
     }
 }

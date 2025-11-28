@@ -3,6 +3,8 @@
 // Licensed under the MIT License.
 // ---------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using LLMSharp.Models.Embeddings;
 using LLMSharp.Models.VectorStores;
 
@@ -17,24 +19,16 @@ namespace LLMSharp.Brokers.VectorStores
             this.vectorStore = vectorStore;
         }
 
-        public async Task SaveVectorAsync(string key, float[] vector)
-        {
+        public async ValueTask SaveVectorAsync(string key, float[] vector) =>
             await this.vectorStore.SaveVectorAsync(key, vector);
-        }
 
-        public async Task<float[]> GetVectorAsync(string key)
-        {
-            return await this.vectorStore.GetVectorAsync(key);
-        }
+        public async ValueTask<float[]> GetVectorAsync(string key) =>
+            await this.vectorStore.GetVectorAsync(key);
 
-        public async Task<IEnumerable<string>> SearchAsync(float[] vector, int topK)
-        {
-            return await this.vectorStore.SearchAsync(vector, topK);
-        }
+        public async ValueTask<IEnumerable<string>> SearchAsync(float[] vector, int topK) =>
+            await this.vectorStore.SearchAsync(vector, topK);
 
-        public async Task SaveVectorEmbeddingAsync(VectorEmbedding embedding)
-        {
+        public async ValueTask SaveVectorEmbeddingAsync(VectorEmbedding embedding) =>
             await this.vectorStore.SaveVectorAsync(embedding.Key, embedding.Vector);
-        }
     }
 }
