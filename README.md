@@ -25,18 +25,6 @@ Designed by **Zafar Urakov**, LLMSharp is a generic, extensible, pluggable, clea
 
 ---
 
-## Overview
-
-LLMSharp follows **The Standard** by Hassan Habib, implementing a clean, layered architecture that promotes:
-
-- **Separation of Concerns**: Clear boundaries between layers
-- **Testability**: Every component can be unit tested in isolation
-- **Extensibility**: Plug in custom providers, stores, and model engines
-- **SOLID Principles**: Single responsibility, open/closed, dependency inversion
-- **Generic Design**: Not tied to any specific LLM framework
-
----
-
 ## Architecture
 
 LLMSharp follows a strict layered architecture:
@@ -469,8 +457,6 @@ The package will be in `LLMSharp/bin/Release/LLMSharp.1.0.0.nupkg`
 
 ## Architecture Principles
 
-LLMSharp strictly adheres to **The Standard** by Hassan Habib:
-
 1. **Brokers are the lowest level** - They wrap external dependencies
 2. **Services contain business logic** - Foundation services are single-purpose
 3. **Orchestration services coordinate** - They combine multiple services
@@ -516,13 +502,6 @@ This project is licensed under the MIT License.
 
 ---
 
-## Acknowledgments
-
-- **Hassan Habib** for [The Standard](https://github.com/hassanhabib/The-Standard)
-- Inspired by clean architecture and SOLID principles
-
----
-
 ## Contact
 
 **Zafar Urakov**
@@ -531,4 +510,4 @@ For questions, issues, or feedback, please open an issue on GitHub.
 
 ---
 
-**LLMSharp** - Industrial-grade LLM SDK for .NET, built with The Standard.
+**LLMSharp** - Industrial-grade LLM SDK for .NET.
