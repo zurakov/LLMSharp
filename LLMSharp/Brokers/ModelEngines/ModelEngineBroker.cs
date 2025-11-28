@@ -17,6 +17,8 @@ namespace LLMSharp.Brokers.ModelEngines
 {
     public class ModelEngineBroker : IModelEngineBroker
     {
+        private string FormatPromptForInstruct(string prompt) => $"[INST] {prompt} [/INST]";
+
         public async ValueTask<ModelInstance> LoadModelAsync(string modelPath)
         {
             var modelParams = new ModelParams(modelPath)
@@ -61,13 +63,28 @@ namespace LLMSharp.Brokers.ModelEngines
             };
 
             var response = new StringBuilder();
+            string formattedPrompt = FormatPromptForInstruct(prompt);
 
-            await foreach (var token in executor.InferAsync(prompt, inferenceParams))
+            await foreach (var token in executor.InferAsync(formattedPrompt, inferenceParams))
             {
                 response.Append(token);
             }
 
-            return response.ToString();
+            string result = response.ToString();
+
+            if (options.StopSequences != null)
+            {
+                foreach (var stopSeq in options.StopSequences)
+                {
+                    if (result.EndsWith(stopSeq))
+                    {
+                        result = result.Substring(0, result.Length - stopSeq.Length);
+                        break;
+                    }
+                }
+            }
+
+            return result.TrimEnd();
         }
 
         public async IAsyncEnumerable<char> StreamGenerateTextAsync(
@@ -90,12 +107,51 @@ namespace LLMSharp.Brokers.ModelEngines
                 AntiPrompts = options.StopSequences?.ToList() ?? new List<string>()
             };
 
-            await foreach (var token in executor.InferAsync(prompt, inferenceParams))
+            string formattedPrompt = FormatPromptForInstruct(prompt);
+
+            // Calculate the maximum stop sequence length for buffering
+            int maxStopSeqLength = 0;
+            if (options.StopSequences != null)
             {
-                foreach (char c in token)
+                foreach (var seq in options.StopSequences)
                 {
-                    yield return c;
+                    if (seq.Length > maxStopSeqLength)
+                        maxStopSeqLength = seq.Length;
                 }
+            }
+
+            var buffer = new StringBuilder();
+
+            await foreach (var token in executor.InferAsync(formattedPrompt, inferenceParams))
+            {
+                buffer.Append(token);
+
+                while (buffer.Length > maxStopSeqLength)
+                {
+                    yield return buffer[0];
+                    buffer.Remove(0, 1);
+                }
+            }
+
+            string remaining = buffer.ToString();
+
+            if (options.StopSequences != null)
+            {
+                foreach (var stopSeq in options.StopSequences)
+                {
+                    if (remaining.EndsWith(stopSeq))
+                    {
+                        remaining = remaining.Substring(0, remaining.Length - stopSeq.Length);
+                        break;
+                    }
+                }
+            }
+
+            remaining = remaining.TrimEnd();
+
+            foreach (char c in remaining)
+            {
+                yield return c;
             }
         }
 

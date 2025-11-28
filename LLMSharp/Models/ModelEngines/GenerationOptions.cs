@@ -12,6 +12,6 @@ namespace LLMSharp.Models.ModelEngines
         public double TopP { get; set; } = 0.9;
         public double FrequencyPenalty { get; set; } = 0.0;
         public double PresencePenalty { get; set; } = 0.0;
-        public string[] StopSequences { get; set; }
+        public string[] StopSequences { get; set; } = new[] { "[INST]", "\n\nUser:", "\n\nHuman:" };
     }
 }

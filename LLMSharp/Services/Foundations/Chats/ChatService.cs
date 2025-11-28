@@ -34,7 +34,8 @@ namespace LLMSharp.Services.Foundations.Chats
             {
                 MaxTokens = request.MaxTokens,
                 Temperature = request.Temperature,
-                TopP = request.TopP
+                TopP = request.TopP,
+                StopSequences = request.StopSequences
             };
 
             string content = await this.modelEngineBroker.GenerateTextAsync(
@@ -61,7 +62,8 @@ namespace LLMSharp.Services.Foundations.Chats
             {
                 MaxTokens = request.MaxTokens,
                 Temperature = request.Temperature,
-                TopP = request.TopP
+                TopP = request.TopP,
+                StopSequences = request.StopSequences
             };
 
             await foreach (char c in this.modelEngineBroker.StreamGenerateTextAsync(
