@@ -156,7 +156,6 @@ LlmClient llm = await LlmConfigurator
 var response = await llm.Chat.ChatAsync("Hello, how are you?");
 Console.WriteLine(response.Content);
 ```
-
 ---
 
 ## Usage Examples
